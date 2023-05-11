@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import logo from '../../assets/logo.svg'
 import { MagnifyingGlassIcon, ShoppingBagIcon } from '@heroicons/react/24/solid'
 
@@ -6,10 +6,10 @@ const NavBar = () => {
   const navItem = (
     <>
       <li>
-        <Link>Home</Link>
+        <NavLink to={`/`}>Home</NavLink>
       </li>
       <li>
-        <Link>About</Link>
+        <NavLink to={`/auth/login`}>About</NavLink>
       </li>
       <li>
         <Link>Services</Link>
