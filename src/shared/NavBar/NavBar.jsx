@@ -1,8 +1,28 @@
 import { Link, NavLink } from "react-router-dom";
-import logo from '../../assets/logo.svg'
-import { MagnifyingGlassIcon, ShoppingBagIcon } from '@heroicons/react/24/solid'
+import logo from "../../assets/logo.svg";
+import {
+  MagnifyingGlassIcon,
+  ShoppingBagIcon,
+} from "@heroicons/react/24/solid";
+import { useContext } from "react";
+import { AuthContext } from "../../providers/AuthProvider";
 
 const NavBar = () => {
+  const { user, logout, loading } = useContext(AuthContext);
+  if (loading) {
+    console.log("loading");
+    return loading;
+  }
+  const handleLogout = (event) => {
+    event.preventDefault();
+    logout()
+      .then(() => {
+        
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   const navItem = (
     <>
       <li>
@@ -19,6 +39,15 @@ const NavBar = () => {
       </li>
       <li>
         <Link>Contact</Link>
+      </li>
+      <li>
+        {user?.email ? (
+          <>
+          <li><NavLink to={`/bookings`}>My Booking</NavLink></li>
+          <li><button onClick={handleLogout}>Logout</button></li></>
+        ) : (
+          <Link to={`/auth/login`}>Login</Link>
+        )}
       </li>
     </>
   );
@@ -46,22 +75,22 @@ const NavBar = () => {
           <ul
             tabIndex={0}
             className="menu menu-compact dropdown-content mt-3 p-2 shadow  rounded-box w-52"
-          >{navItem}</ul>
+          >
+            {navItem}
+          </ul>
         </div>
         {/* <a className="btn btn-ghost normal-case text-xl">daisyUI</a> */}
         <img className="h-16" src={logo} alt="" />
       </div>
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1">
-         {navItem}
-        </ul>
+        <ul className="menu menu-horizontal px-1">{navItem}</ul>
       </div>
       <div className="navbar-end">
         <div className="flex gap-5 mr-2">
-        <ShoppingBagIcon className="h-6 w-6 " /> 
-        <MagnifyingGlassIcon className="h-6 w-6 " /> 
+          <ShoppingBagIcon className="h-6 w-6 " />
+          <MagnifyingGlassIcon className="h-6 w-6 " />
         </div>
-      <button className="btn btn-outline btn-error">Appointment</button>
+        <button className="btn btn-outline btn-error">Appointment</button>
       </div>
     </div>
   );
